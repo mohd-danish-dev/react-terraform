@@ -1,6 +1,6 @@
 # s3 static website bucket 
 resource "aws_s3_bucket" "app_bucket" {
-  bucket = "react-tf-webapp"
+  bucket = local.bucket_name
   tags   = local.default_tags
 
 }
@@ -19,31 +19,22 @@ resource "aws_s3_bucket_website_configuration" "app_bucket" {
 
 }
 
-resource "aws_s3_bucket_acl" "app_bucket" {
-  bucket = aws_s3_bucket.app_bucket.id
-  acl    = "private"
-}
-
-
 # s3 bucket policy
 resource "aws_s3_bucket_policy" "app_bucket" {
-  bucket = aws_s3_bucket.app_bucket.id
+  depends_on = [aws_cloudfront_distribution.cdn]
+  bucket     = aws_s3_bucket.app_bucket.id
 
   policy = <<POLICY
 {
-  "Id": "Policy",
+    "Id": "AccesPolicy",
+  "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": [
-        "s3:GetObject"
-      ],
+      "Sid": "PublicReadGetObject",
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::${aws_s3_bucket.app_bucket.bucket}/*",
-      "Principal": {
-        "AWS": [
-          "*"
-        ]
-      }
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::${aws_s3_bucket.app_bucket.bucket}/*"
     }
   ]
 }

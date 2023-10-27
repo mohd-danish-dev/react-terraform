@@ -9,3 +9,9 @@ variable "project" {
   default     = "react-terraform-sample"
   type        = string
 }
+
+variable "env" {
+  type        = string
+  default     = "dev"
+  description = "defines the running environment"
+}
