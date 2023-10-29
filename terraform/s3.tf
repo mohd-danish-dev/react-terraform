@@ -16,7 +16,7 @@ resource "aws_s3_bucket_acl" "app_bucket_acl" {
   depends_on = [ aws_s3_bucket_ownership_controls.app_bucket ]
   
   bucket = aws_s3_bucket.app_bucket.id
-  acl = "public"
+  acl = "public-read"
 }
 
 # static bucket configuration
