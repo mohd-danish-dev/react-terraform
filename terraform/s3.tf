@@ -5,6 +5,19 @@ resource "aws_s3_bucket" "app_bucket" {
 
 }
 
+#S3 Acl
+resource "aws_s3_bucket_ownership_controls" "app_bucket" {
+  bucket = aws_s3_bucket.app_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+resource "aws_S3_bucket_acl" "app_bucket_acl" {
+  depends_on = [ aws_s3_bucket_ownership_controls.app_bucket ]
+  
+  bucket = aws_s3_bucket.app_bucket.id
+  acl = "public"
+}
 
 # static bucket configuration
 resource "aws_s3_bucket_website_configuration" "app_bucket" {
