@@ -26,7 +26,7 @@ resource "aws_s3_bucket_policy" "app_bucket" {
 
   policy = <<POLICY
 {
-    "Id": "AccesPolicy",
+    "Id": "PublicAccesPolicy",
   "Version": "2012-10-17",
   "Statement": [
     {
