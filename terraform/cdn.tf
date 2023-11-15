@@ -1,19 +1,26 @@
-resource "aws_cloudfront_distribution" "cdn" {
-  enabled = true
-  origin {
-    origin_id   = "${aws_s3_bucket.app_bucket.bucket}-origin"
-    domain_name = "${aws_s3_bucket.app_bucket.bucket}.s3-website.${var.region}.amazonaws.com"
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1"]
-    }
+resource "aws_cloudfront_origin_access_identity" "app_oai" {
+  comment = "${local.bucket_name}-oai"
+}
 
+resource "aws_cloudfront_distribution" "cdn" {
+  depends_on          = [
+    aws_cloudfront_origin_access_identity.app_oai,
+    aws_s3_bucket.app_bucket
+  ]
+  enabled             = true
+  default_root_object = "index.html"
+  tags                = local.default_tags
+  origin {
+    origin_id   = aws_s3_bucket.app_bucket.id
+    domain_name = aws_s3_bucket.app_bucket.bucket_domain_name
+
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.app_oai.cloudfront_access_identity_path
+    }
   }
 
   default_cache_behavior {
-    target_origin_id = "${aws_s3_bucket.app_bucket.bucket}-origin"
+    target_origin_id = aws_s3_bucket.app_bucket.id
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
 

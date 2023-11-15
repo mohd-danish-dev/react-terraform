@@ -1,12 +1,12 @@
 variable "region" {
   description = "AWS region where infrastructure is going to be created."
-  default     = "ap-south-1"
+  default     = "us-east-1"
   type        = string
 }
 
 variable "project" {
   description = "Project name"
-  default     = "react-terraform-sample"
+  default     = "danish"
   type        = string
 }
 

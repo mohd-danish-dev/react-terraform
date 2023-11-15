@@ -3,5 +3,5 @@ output "website_url" {
 }
 
 output "cdn_domain" {
-  value = "http://${aws_cloudfront_distribution.cdn.domain_name}"
+  value = "https://${aws_cloudfront_distribution.cdn.domain_name}"
 }
