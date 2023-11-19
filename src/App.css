@@ -9,12 +9,12 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 10s linear;
   }
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #fff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +35,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.header {
+  text-decoration: none;
+  background: linear-gradient(to right, rgb(0, 30, 255), hsl(295, 95%, 68%));
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 5rem;
 }
